@@ -17,7 +17,8 @@ function find_good_shop(shops) {
 	for (var i = 0; i < shops.length; i++) {
 		shop = shops[i];
 		if (shop.rating > 4.0 && !shop.is_closed && 
-			shop.location.postal_code && shop.location.address) {
+			shop.location.postal_code && shop.location.address &&
+			shop.location.address.length > 0) {
 			good_shop = shop;
 			break;
 		}
