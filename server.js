@@ -15,22 +15,13 @@ function find_coffee(results) {
 	var coffee = null;
 	for (var i = 0; i < results.length; i++) {
 		coffee = results[i];
-		if (coffee.rating > 4.0 && !coffee.is_closed && coffee.location.cross_streets) {
+		if (coffee.rating > 4.0 && !coffee.is_closed && 
+			coffee.location.postal_code && coffee.location.address && 
+			coffee.location.cross_streets) {
 			break;
 		}
 	}
 	return coffee;
-}
-
-function coffee_to_json(coffee) {
-	var obj = {};
-	if (coffee != null) {
-		obj.status = true;
-		obj.coffee = coffee;
-	} else {
-		obj.status = false;
-	}
-	return JSON.stringify(obj);
 }
 
 function search_yelp(lat, lon, response) {
@@ -39,19 +30,17 @@ function search_yelp(lat, lon, response) {
 	var options = {term: "coffee shop", category_list: "coffee", 
 		sort: 1, ll: latlon};
 	yelp.search(options, function(error, data) {
-		response.writeHead(200, "text/json");
 		if (error) {
+			response.writeHead(404);
 			console.log(error);
-			response.write(coffee_to_json(null));
 		} else {
+			response.writeHead(200, "text/json");
 			var results = data.businesses; 
 			var coffee = find_coffee(results);
-			response.write(coffee_to_json(coffee));
+			response.write(JSON.stringify(coffee));
 		}
 		response.end();
 	});
-
-	
 }
 
 function onRequest(request, response) {

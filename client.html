@@ -6,51 +6,44 @@
 		<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.0/css/bootstrap-combined.min.css" rel="stylesheet">
 		<script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.0/js/bootstrap.min.js"></script>
 		<script>  
-			function geo_error(error) {  
-				switch(error.code) {  
-					case error.PERMISSION_DENIED: 
-						alert('user did not share geolocation data');  
-						break;  
-					case error.POSITION_UNAVAILABLE: 
-						alert('could not detect current position');  
-						break;  
-					case error.TIMEOUT: 
-						alert('retrieving position timed out');  
-						break;  
-					default: 
-						alert('unknown error');  
-						break;  
-				}  
-			} 
+			
+			function good_coffee(shop) {
+				var name = shop.name;
+				var location = shop.location;
+				var address = encodeURIComponent(name + ', ' + 
+					location.address + ', ' + location.postal_code);
+				$('#coffee')
+					.text('Go to ')
+					.append('<strong><a href="' + shop.url + '">' + name + '</a></strong>. ')
+					.append('<br/>')
+					.append('<h4>It\'s at <a href="http://maps.google.com/?q=' + address + '">'+ 
+						location.address + '</a> between ' + location.cross_streets + '.</h4>');
+			}
+
+			function bad_coffee() {
+				$('#coffee')
+					.text('Too bad, go to ')
+					.append('<a href="http://www.starbucks.com/">Starbucks</a>.');
+			}
 
 			function geo_success(position){
 				$.ajax({
 					url: '/y',
 					data: { lat: position.coords.latitude, lon: position.coords.longitude },
 				}).done(function(json) {
-					var obj = JSON.parse(json);
-					if (obj.status) {
-						var coffee = obj.coffee;
-						var location = coffee.location;
-						$('#coffee')
-							.text('Go to ')
-							.append('<strong><a href="' + coffee.url + '">' + coffee.name + '</a></strong>. ')
-							.append('<br/>')
-							.append("<h4>It's by " + location.cross_streets + '.</h4>');
-					} else {
-						$('#coffee').text("... hell, I don't know.");
-					}
-				});
+					var shop = JSON.parse(json);
+					good_coffee(shop);
+				}).fail(bad_coffee);
 			}
 
 			$(document).ready(function(){  
-				navigator.geolocation.getCurrentPosition(geo_success, geo_error);
+				navigator.geolocation.getCurrentPosition(geo_success, bad_coffee);
 			});  
 		</script>  
 	</head>  
 	<body>
 		<div class="container" style="text-align: center;">
-			<h1>Need some good fucking coffee?<br/><br/></h1>
+			<h1>Need good fucking coffee?<br/><br/></h1>
 			<h1><span id="coffee">...</span></h1>
 		</div>	
 	</body>  
