@@ -13,18 +13,26 @@
 				var location = shop.location;
 				var address = encodeURIComponent(name + ', ' + 
 					location.address + ', ' + location.postal_code);
+				var between;
+
+				if (location.cross_streets) {
+					between = ' between ' + location.cross_streets;
+				} else {
+					between = '';
+				}
+
 				$('#coffee')
 					.text('Go to ')
 					.append('<strong><a href="' + shop.url + '">' + name + '</a></strong>. ')
 					.append('<br/>')
 					.append('<h4>It\'s at <a href="http://maps.google.com/?q=' + address + '">'+ 
-						location.address + '</a> between ' + location.cross_streets + '.</h4>');
+						location.address + '</a>' + between + '.</h4>');
 			}
 
 			function bad_coffee() {
 				$('#coffee')
 					.text('Too bad, go to ')
-					.append('<a href="http://www.starbucks.com/">Starbucks</a>.');
+					.append('<a href="http://maps.google.com/?q=starbucks">Starbucks</a>.');
 			}
 
 			function geo_success(position){
