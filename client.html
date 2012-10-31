@@ -1,6 +1,8 @@
 <!DOCTYPE html>  
 <html lang="en">  
 	<head>
+		<title>Good Fucking Coffee</title>
+		<link rel="apple-touch-icon" sizes="144x144" href="apple-touch-icon-144x144.png">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>  
 		<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.0/css/bootstrap-combined.min.css" rel="stylesheet">
@@ -57,14 +59,24 @@
 				var spinner = new Spinner(opts).spin(target); 
 			});  
 		</script>
-		<link rel="apple-touch-icon" sizes="144x144" href="apple-touch-icon-144x144.png">
-		<title>Good Fucking Coffee</title>
+		<script type="text/javascript">
+			var _gaq = _gaq || [];
+			_gaq.push(['_setAccount', 'UA-36013421-1']);
+			_gaq.push(['_setDomainName', 'goodfuckingcoffee.com']);
+			_gaq.push(['_trackPageview']);
+
+			(function() {
+				var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+				ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+				var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+			})();
+		</script>	
 	</head>  
 	<body>
 		<div class="container" style="text-align: center;">
 			<h1>Need good fucking coffee?<br/><br/></h1>
 			<h1><div id="coffee"></div></h1><br/><br/><br/>
 			<a href="http://www.yelp.com/"><img src="http://s3-media3.ak.yelpcdn.com/assets/2/www/img/2d7ab232224f/developers/yelp_logo_100x50.png" width="50" height="25"></a>
-		</div>	
+		</div>
 	</body>  
 </html>  
