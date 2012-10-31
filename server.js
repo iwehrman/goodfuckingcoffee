@@ -11,17 +11,19 @@ var yelp = require("yelp").createClient({
   token_secret: "2XT75LHXEvm8Tz7d40US6urU5Ig"
 });
 
-function find_coffee(results) {
-	var coffee = null;
-	for (var i = 0; i < results.length; i++) {
-		coffee = results[i];
-		if (coffee.rating > 4.0 && !coffee.is_closed && 
-			coffee.location.postal_code && coffee.location.address && 
-			coffee.location.cross_streets) {
+function find_good_shop(shops) {
+	var good_shop = null;
+	var shop;
+	for (var i = 0; i < shops.length; i++) {
+		shop = shops[i];
+		if (shop.rating > 4.0 && !shop.is_closed && 
+			shop.location.postal_code && shop.location.address && 
+			shop.location.cross_streets) {
+			good_shop = shop;
 			break;
 		}
 	}
-	return coffee;
+	return good_shop;
 }
 
 function search_yelp(lat, lon, response) {
@@ -34,10 +36,14 @@ function search_yelp(lat, lon, response) {
 			response.writeHead(404);
 			console.log(error);
 		} else {
-			response.writeHead(200, "text/json");
-			var results = data.businesses; 
-			var coffee = find_coffee(results);
-			response.write(JSON.stringify(coffee));
+			var shops = data.businesses; 
+			var good_shop = find_good_shop(shops);
+			if (good_shop) {
+				response.writeHead(200, "text/json");
+				response.write(JSON.stringify(good_shop));	
+			} else {
+				response.writeHead(404);
+			}
 		}
 		response.end();
 	});
