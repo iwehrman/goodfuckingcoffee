@@ -15,7 +15,7 @@ function find_coffee(results) {
 	var coffee = null;
 	for (var i = 0; i < results.length; i++) {
 		coffee = results[i];
-		if (coffee.rating > 4.0 && !coffee.is_closed) {
+		if (coffee.rating > 4.0 && !coffee.is_closed && coffee.location.cross_streets) {
 			break;
 		}
 	}
@@ -36,7 +36,7 @@ function coffee_to_json(coffee) {
 function search_yelp(lat, lon, response) {
 	// See http://www.yelp.com/developers/documentation/v2/search_api
 	var latlon = lat + ","+ lon;
-	var options = {term: "coffee", category_list: "coffee", 
+	var options = {term: "coffee shop", category_list: "coffee", 
 		sort: 1, ll: latlon};
 	yelp.search(options, function(error, data) {
 		response.writeHead(200, "text/json");
