@@ -14,20 +14,26 @@
 			function good_coffee(shop) {
 				var name = shop.name;
 				var location = shop.location;
+				
 				var address = encodeURIComponent(name + ', ' + 
 					location.address + ', ' + location.postal_code);
+				
 				var between;
-
 				if (location.cross_streets) {
 					between = ' between ' + location.cross_streets;
 				} else {
 					between = '';
 				}
 
+				var rating = "Yelp rating: " + shop.rating;
+
 				$('#coffee')
 					.text('Go to ')
-					.append('<strong><a href="' + shop.url + '">' + name + '</a></strong>. ')
-					.append('<br/>')
+					.append('<strong><a href="' + shop.url + '">' + name + '</a></strong>.<br/>')
+					.append('<h4>' + shop.review_count + ' people rated it ' + 
+						'<img src="' + shop.rating_img_url_large + 
+						'" width="83" height="15" style="padding: 0px 2px 2px 2px;" ' + 
+						'title="' + rating + '" alt="' + rating + '"/>.</h4>')
 					.append('<h4>It\'s at <a href="http://maps.google.com/?q=' + address + '">'+ 
 						location.address + '</a>' + between + '.</h4>');
 			}
@@ -76,7 +82,7 @@
 	<body>
 		<div class="container" style="text-align: center;">
 			<h1>Need good fucking coffee?<br/><br/></h1>
-			<h1><div id="coffee"></div></h1><br/><br/><br/>
+			<h1><div id="coffee"></div></h1><br/><br/>
 			<a href="http://www.yelp.com/"><img src="http://s3-media3.ak.yelpcdn.com/assets/2/www/img/2d7ab232224f/developers/yelp_logo_100x50.png" width="50" height="25"></a>
 		</div>
 	</body>  

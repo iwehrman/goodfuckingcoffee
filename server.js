@@ -2,7 +2,6 @@ var http = require("http");
 var url = require("url");
 var fs = require("fs");
 
-
 // see https://github.com/olalonde/node-yelp
 var yelp = require("yelp").createClient({
   consumer_key: "JJ0WFEU5hEKjMkxoVAT63A", 
