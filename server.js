@@ -7,8 +7,8 @@ var fs = require("fs");
 var yelp = require("yelp").createClient({
   consumer_key: "JJ0WFEU5hEKjMkxoVAT63A", 
   consumer_secret: "kNAsL7p3lyXs7l_zrcyru8-o6T0",
-  token: "pAv3WL5VlQhFyK9hyDd_-EXN_grChcNW",
-  token_secret: "2XT75LHXEvm8Tz7d40US6urU5Ig"
+  token: "XLSKFxgcoB_z0oiUBOxT73wYMwCA0D2_",
+  token_secret: "tAJaUQrFzgqNLbejiV8NhYN5Db4"
 });
 
 function find_good_shop(shops) {
