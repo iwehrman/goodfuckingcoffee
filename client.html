@@ -10,7 +10,6 @@
 		<script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.0/js/bootstrap.min.js"></script>
 		<script src="//cdnjs.cloudflare.com/ajax/libs/spin.js/1.2.7/spin.min.js"></script>
 		<script>  
-			
 			function good_coffee(shop) {
 				var name = shop.name;
 				var location = shop.location;
@@ -56,6 +55,7 @@
 
 			$(document).ready(function(){ 
 				navigator.geolocation.getCurrentPosition(geo_success, bad_coffee);
+				// navigator.geolocation.getCurrentPosition(bad_coffee, bad_coffee);
 				var opts = {
 					lines: 12, // The number of lines to draw
 					length: 6, // The length of each line
@@ -77,9 +77,13 @@
 				ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
 				var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
 			})();
-		</script>	
+		</script>
+		<style type="text/css">
+			a { color: #D4622B; }
+			a:hover { color: #B05529; text-decoration: none; }
+		</style>
 	</head>  
-	<body>
+	<body style="background-color: #FFEEDA; color: #3A1C00;">
 		<div class="container" style="text-align: center;">
 			<h1>Need good fucking coffee?<br/><br/></h1>
 			<h1><div id="coffee"></div></h1><br/><br/>
