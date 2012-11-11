@@ -60,6 +60,13 @@ function onRequest(request, response) {
 	    var lat = parsedurl.query.lat;
 	    var lon = parsedurl.query.lon;	    
 	    search_yelp(lat, lon, response);
+	} else if (path === "/s") {
+	    var lat = parsedurl.query.lat;
+	    var lon = parsedurl.query.lon;
+	    var shop = parsedurl.query.shop;
+	    console.log("Sucks: " + shop + " at " + lat + "," + lon + " on " + new Date());
+	    response.writeHead(200);
+	    response.end();
 	} else {
 		response.writeHead(404);
 		response.write("No: " + path);

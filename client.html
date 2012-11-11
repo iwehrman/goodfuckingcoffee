@@ -12,7 +12,7 @@
 		<script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.0/js/bootstrap.min.js"></script>
 		<script src="//cdnjs.cloudflare.com/ajax/libs/spin.js/1.2.7/spin.min.js"></script>
 		<script>  
-			function good_coffee(shop) {
+			function good_coffee(position, shop) {
 				var name = shop.name;
 				var location = shop.location;
 				
@@ -36,12 +36,26 @@
 						'" width="83" height="15" style="padding: 0px 2px 3px 2px;" ' + 
 						'title="' + rating + '" alt="' + rating + '"/>.</h4>')
 					.append('<h4>It\'s at <a href="http://maps.google.com/?q=' + address + '">'+ 
-						location.address + '</a>' + between + '.</h4>');
+						location.address + '</a>' + between + '.</h4>')
+					.append('<h6><a href="#" id="sucks">Coffee sucks?</a></h6>');
+
+				$('#sucks').click(function() { this_sucks(position, shop); });
+			}
+
+			function this_sucks(position, shop) {
+				$.ajax({
+					url: '/s',
+					data: { lat: position.coords.latitude, 
+						lon: position.coords.longitude, 
+						shop: JSON.stringify(shop) },
+				}).done(function() {
+					bad_coffee();
+				});
 			}
 
 			function bad_coffee() {
 				$('#coffee')
-					.text('Too bad, go to ')
+					.text('Too bad. Go to ')
 					.append('<a href="http://maps.google.com/?q=starbucks">Starbucks</a>.');
 			}
 
@@ -51,7 +65,7 @@
 					data: { lat: position.coords.latitude, lon: position.coords.longitude },
 				}).done(function(json) {
 					var shop = JSON.parse(json);
-					good_coffee(shop);
+					good_coffee(position, shop);
 				}).fail(bad_coffee);
 			}
 
