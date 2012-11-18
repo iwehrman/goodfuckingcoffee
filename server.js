@@ -10,14 +10,15 @@ var yelp = require("yelp").createClient({
   token_secret: "tAJaUQrFzgqNLbejiV8NhYN5Db4"
 });
 
-function find_good_shop(shops) {
+function find_good_shop(shops, omit) {
 	var good_shop = null;
 	var shop;
 	for (var i = 0; i < shops.length; i++) {
 		shop = shops[i];
 		if (shop.rating > 4.0 && !shop.is_closed && 
 			shop.location.postal_code && shop.location.address &&
-			shop.location.address.length > 0) {
+			shop.location.address.length > 0 &&
+			!(shop.id in omit)) {
 			good_shop = shop;
 			break;
 		}
@@ -25,7 +26,7 @@ function find_good_shop(shops) {
 	return good_shop;
 }
 
-function search_yelp(lat, lon, response) {
+function search_yelp(lat, lon, omit, response) {
 	// See http://www.yelp.com/developers/documentation/v2/search_api
 	var latlon = lat + ","+ lon;
 	var options = {term: "coffee shop", category_list: "coffee", 
@@ -36,7 +37,7 @@ function search_yelp(lat, lon, response) {
 			console.log(error);
 		} else {
 			var shops = data.businesses; 
-			var good_shop = find_good_shop(shops);
+			var good_shop = find_good_shop(shops, omit);
 			if (good_shop) {
 				response.writeHead(200, "text/json");
 				response.write(JSON.stringify(good_shop));	
@@ -58,8 +59,9 @@ function onRequest(request, response) {
 		stream.pipe(response);
 	} else if (path === "/y") {
 	    var lat = parsedurl.query.lat;
-	    var lon = parsedurl.query.lon;	    
-	    search_yelp(lat, lon, response);
+	    var lon = parsedurl.query.lon;
+	    var omit = JSON.parse(parsedurl.query.omit);
+	    search_yelp(lat, lon, omit, response);
 	} else if (path === "/s") {
 	    var lat = parsedurl.query.lat;
 	    var lon = parsedurl.query.lon;
