@@ -60,8 +60,13 @@ function onRequest(request, response) {
 	} else if (path === "/y") {
 	    var lat = parsedurl.query.lat;
 	    var lon = parsedurl.query.lon;
-	    var omit = JSON.parse(parsedurl.query.omit);
-	    search_yelp(lat, lon, omit, response);
+	    var omit;
+	    try {
+	    	omit = JSON.parse(parsedurl.query.omit);
+	    	search_yelp(lat, lon, omit, response);
+	    } catch (e) {
+	    	console.log("Error: ", e);
+	    }
 	} else if (path === "/s") {
 	    var lat = parsedurl.query.lat;
 	    var lon = parsedurl.query.lon;
